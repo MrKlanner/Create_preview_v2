@@ -47,6 +47,9 @@ public class Controller {
     private Button oplyaButton;
 
     @FXML
+    private Button InterButton;
+
+    @FXML
     private TextArea outText;
 
     @FXML
@@ -58,8 +61,8 @@ public class Controller {
     @FXML
     void initialize() {
         String bannerType;
-        System.out.println("хелп!");
-        System.out.println("В инициализаторе проверил чекбоксы");
+        //System.out.println("хелп!");
+        //System.out.println("В инициализаторе проверил чекбоксы");
         /*boolean chD = checkDesk.isSelected();
         boolean chP = checkPlansh.isSelected();
         boolean chM = checkMob.isSelected();*/
@@ -67,10 +70,34 @@ public class Controller {
         billButton.setOnAction( event -> {
             String preview = previewFild.getText();
             boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
-            System.out.println("вошёл в ивент");
+            //System.out.println("вошёл в ивент");
+            outText.appendText("Биллборд\n");
             outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Billboard") + '\n');
-                }
-        );
+        });
+
+        leftButton.setOnAction(event -> {
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            //System.out.println("вошёл в ивент");
+            outText.appendText("Баннер 240х400 (слева/в Ленте новостей)\n");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"240x400_left") + '\n');
+        });
+
+        nativeButton.setOnAction(event -> {
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            //System.out.println("вошёл в ивент");
+            outText.appendText("Нейтив ролл\n");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Native") + '\n');
+        });
+
+        InterButton.setOnAction(event -> {
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            //System.out.println("вошёл в ивент");
+            outText.appendText("Интерскроллер\n");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"InterScroll") + '\n');
+        });
 
     }
 }

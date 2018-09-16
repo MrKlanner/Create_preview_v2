@@ -1,6 +1,10 @@
 package sample;
 
+import com.sun.xml.internal.fastinfoset.util.StringArray;
+
 import java.lang.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class PreviewCreater {
@@ -14,28 +18,105 @@ public class PreviewCreater {
             "https://pink.rbc.ru/", "https://pink.rbc.ru/lifestyle/5b8998bb9a7947526bd5b704/",
             "http://zoom.cnews.ru/", "http://zoom.cnews.ru/publication/item/60892/"};
 
-    static String BL_mob = "";
+
+    private static String onlyMob(String prw, String bannerType)
+    {
+        String mass[] = new String[line.length];
+        StringBuilder str = new StringBuilder();
+        int k = 0;
+
+        //System.out.println("логика пройдена");
+        switch (bannerType) {
+            case "Billboard":
+            case "240x400_left":
+                int p = new Random().nextInt((line.length - 2) / 2); //рандомная площадка (кроме Zoom)
+
+                if (p % 2 == 1) { return line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
+                else { return line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
+
+            case "Native":
+                for (String aLine : line) {
+                    if (aLine.contains("://www.rbc.ru")) {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
+                break;
+            case "InterScroll":
+                for (String aLine : line) {
+                    if (aLine.contains("//www.rbc.ru") || aLine.contains("https://pink.rbc.ru/")) /*+ если что-то внедрят*/
+                    {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
+                break;
+        }
+        //Общий вывод для 1 устройства
+        for (int i = 0; i < k; i++) {
+            str.append(mass[i]).append(prw).append('\n');
+        }
+        return str.toString();
+    }
+
+    private static String onlyTab(String prw, String bannerType)
+    {
+
+        String mass[] = new String[line.length];
+        StringBuilder str = new StringBuilder();
+        int k = 0;
+
+        //Биллборд
+        if (bannerType.equals("Billboard")) {
+            for (String aLine : line) {
+                if (aLine.contains("//www.rbc.ru") || aLine.contentEquals("https://style.rbc.ru") ||
+                        aLine.contentEquals("https://pink.rbc.ru/") || aLine.contentEquals("https://quote.rbc.ru/"))
+                {   mass[k] = aLine; k++;}
+            }
+        }
+        // Баннер 240х400 слева (или на моб в ленте новостей)
+        else if (bannerType.equals("240x400_left"))
+        {
+            for (String aLine2 : line) {
+                if (aLine2.contains("://www.rbc.ru"))
+                {   mass[k] = aLine2; k++;}
+            }
+        }
+        //Общий вывод для 1 устройства
+        for (int i = 0; i < k; i++) {
+            str.append(mass[i]).append(prw).append('\n');
+        }
+        return str.toString();
+    }
 
 
     public static String checkBoxes(boolean[] Dvc, String prw, String bannerType) {
-        System.out.println("вошёл в функцию");
+        //System.out.println("вошёл в функцию");
 
-        //проверка выбора чекбокса для телефона
-        if (Dvc[2] && !Dvc[1] && !Dvc[0])
-        {
-            System.out.println("логика пройдена");
-            if (bannerType.equals("Billboard")) {
-                int p = new Random().nextInt((line.length-2)/2); //рандомная площадка (кроме Zoom)
-                if (p%2 == 1)
-                    return line[p-1] + prw + "\n" + line[p] + prw + "\n";
-                else return line[p] + prw + "\n" + line[p+1] + prw + "\n";
-            }
-           // else if (bannerType == "Branding")
-        }
-/*        if (Dvc[1] && !Dvc[0] && !Dvc[2])
-            if (bannerType.equals("Billboard")) {
-                line.
+        String mass[] = new String[line.length];
+        StringBuilder str = new StringBuilder();
+        int k = 0;
+
+        //Проверка на вшивость
+        if (Dvc[2] || Dvc[1] || Dvc[0])
+
+            /*//МОБ+ПЛАНШ или ДЕСК+ПЛАНШ
+            if ((!Dvc[0] && Dvc[1] && Dvc[2]) || (Dvc[0] && Dvc[1] && !Dvc[2]))
+            {
+                if (!Dvc[0] && Dvc[1] && !Dvc[2])
+                    return "";
             }*/
-        return "Пожалуйста, выберите устройство";
+
+
+            // ТОЛЬКО МОБИЛЬНЫЙ
+            if (Dvc[2] && !Dvc[1] && !Dvc[0]) {return onlyMob(prw, bannerType);}
+
+            //ТОЛЬКО ПЛАНШЕТ
+            if (Dvc[1] && !Dvc[0] && !Dvc[2]) {return onlyTab(prw, bannerType);}
+
+/*            //ТОЛЬКО ДЕСК
+            if (Dvc[0] && !Dvc[1] && !Dvc[2])*/
+
+        else return "Пожалуйста, выберите устройство";
     }
 }
