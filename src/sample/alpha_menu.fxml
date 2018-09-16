@@ -11,7 +11,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Label layoutX="35.0" layoutY="43.0" prefHeight="17.0" prefWidth="100.0" text="Превью ссылка" />
       <Button fx:id="fullButton" layoutX="97.0" layoutY="229.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="102.0" text="Фуллскрин" />
@@ -21,10 +21,10 @@
       <Button fx:id="brandButton" layoutX="455.0" layoutY="110.0" mnemonicParsing="false" prefHeight="182.0" prefWidth="115.0" text="Брендирование" />
       <Button fx:id="rightButton" layoutX="381.0" layoutY="152.0" mnemonicParsing="false" prefHeight="111.0" prefWidth="61.0" text="240х400" />
       <Button fx:id="billButton" layoutX="221.0" layoutY="110.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="221.0" text="Биллборд" />
-      <TextField fx:id="previewFild" layoutX="35.0" layoutY="60.0" prefHeight="25.0" prefWidth="520.0" />
-      <CheckBox fx:id="checkMob" layoutX="51.0" layoutY="179.0" mnemonicParsing="false" text="Моб" />
-      <CheckBox fx:id="checkPlansh" layoutX="51.0" layoutY="153.0" mnemonicParsing="false" text="Планш" />
-      <CheckBox fx:id="checkDesk" layoutX="51.0" layoutY="128.0" mnemonicParsing="false" text="Деск" />
-      <TextArea fx:id="outText" layoutX="632.0" layoutY="45.0" prefHeight="268.0" prefWidth="200.0" />
+      <TextField fx:id="previewFild" layoutX="35.0" layoutY="60.0" prefHeight="25.0" prefWidth="529.0" />
+      <CheckBox fx:id="checkMob" layoutX="68.0" layoutY="179.0" mnemonicParsing="false" text="Моб" />
+      <CheckBox fx:id="checkPlansh" layoutX="68.0" layoutY="153.0" mnemonicParsing="false" text="Планш" />
+      <CheckBox fx:id="checkDesk" layoutX="68.0" layoutY="128.0" mnemonicParsing="false" text="Деск" />
+      <TextArea fx:id="outText" layoutX="36.0" layoutY="319.0" prefHeight="255.0" prefWidth="529.0" />
    </children>
 </AnchorPane>

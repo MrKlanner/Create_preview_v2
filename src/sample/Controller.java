@@ -56,20 +56,22 @@ public class Controller {
     private CheckBox checkPlansh;
 
     @FXML
-    static String bannerType;
     void initialize() {
-        String preview = previewFild.getText();
-        boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+        String bannerType;
+        System.out.println("хелп!");
+        System.out.println("В инициализаторе проверил чекбоксы");
         /*boolean chD = checkDesk.isSelected();
         boolean chP = checkPlansh.isSelected();
         boolean chM = checkMob.isSelected();*/
 
         billButton.setOnAction( event -> {
-            bannerType = "Bill";
-            outText.appendText("Button Action\n");
-            PreviewСreater.checkBoxes(chDevice,preview,bannerType);
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            System.out.println("вошёл в ивент");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Billboard") + '\n');
                 }
         );
+
     }
 }
 
