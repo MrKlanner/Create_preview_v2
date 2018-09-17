@@ -119,20 +119,21 @@ public class PreviewCreater {
                 { mass[k] = aLine; k++;}
             }
             int p = myRand(mass);
-            if (p % 2 == 1) { mass[0] = mass[p - 1]; mass[1] = mass[p]; k=2}
-            else { mass[0] = mass[p]; mass[1] = mass[p+1]; k=2}
-
-
+            if (p % 2 == 1) { mass[0] = mass[p - 1]; mass[1] = mass[p]; k=2;}
+            else { mass[0] = mass[p]; mass[1] = mass[p+1]; k=2;}
 
             for (String aLine : line) {
                 if (aLine.contains("style.rbc.ru") || aLine.contains("pink.rbc.ru"))
                     { mass[k] = aLine; k++;}
             }
-            int p = myRand(4, k);
-            if
-
+            /*int p = myRand(4, k);
+            if*/
         }
-
+        //Общий вывод для 1 устройства
+        for (int i = 0; i < k; i++) {
+            str.append(mass[i]).append(prw).append('\n');
+        }
+        return str.toString();
     }
 
 
