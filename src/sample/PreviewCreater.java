@@ -87,8 +87,8 @@ public class PreviewCreater {
         //Биллборд
         if (bannerType.equals("Billboard")) {
             for (String aLine : line) {
-                if (aLine.contains(NEWS) || aLine.contentEquals(STYLE) ||
-                        aLine.contentEquals(PINK) || aLine.contentEquals(QUOTE))
+                if ((aLine.contains(NEWS) || aLine.contentEquals(STYLE) ||
+                        aLine.contentEquals(PINK) || aLine.contentEquals(QUOTE)) && !(aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER)))
                 {   mass[k] = aLine; k++;}
             }
         }
