@@ -2,6 +2,7 @@ package sample;
 
 import java.lang.*;
 import java.util.Random;
+import static sample.URLs.*;
 
 public class PreviewCreater {
 
@@ -13,30 +14,30 @@ public class PreviewCreater {
             "https://quote.rbc.ru/", "https://quote.rbc.ru/news/article/5b8d420e9a79478a8ce28e28/",
             "https://sportrbc.ru/", "https://sportrbc.ru/news/5b8d39e79a7947881a6090cd/",
             "https://style.rbc.ru/", "https://style.rbc.ru/life/5b8929359a79473211c2cde9/",
-            "http://tv.rbc.ru/", "http://tv.rbc.ru/archive/ekskluziv/5b8d05ce2ae5964d74b55104/",
             "https://pink.rbc.ru/", "https://pink.rbc.ru/lifestyle/5b8998bb9a7947526bd5b704/",
+            "https://realty.rbc.ru/", "https://realty.rbc.ru/news/5ba0efcc9a79476817a47f23",
             "http://zoom.cnews.ru/", "http://zoom.cnews.ru/publication/item/60892/"};
 
     private static int myRand (String[] mass)
     {
-        return new Random().nextInt(mass.length/2);
+        return new Random().nextInt(mass.length/3);
     }
 
     private static int myRand(int start, int end)
     {
-        return new Random().nextInt(end - start +1) + start;
+        return new Random().nextInt((end-1) - start +1) + start;
     }
 
-    private static void contURL (String[] urls, int k) {
-        String arr[] = new String[line.length];
+    /*private static void contURL (String[] urls, int k) {
+        String arr1[] = new String[line.length];
         for (String aLine : line) {
             for (int i = 0; i < line.length; i++)
                 if (aLine.contains(urls[i])) {
                     k++;
-                    arr[k] = aLine;
+                    arr1[k] = aLine;
                 }
         }
-    }
+    }*/
 
     private static String onlyMob(String prw, String bannerType)
     {
@@ -115,25 +116,48 @@ public class PreviewCreater {
         //Биллборд
         if (bannerType.equals("Billboard")) {
             for (String aLine : line) {
-                if (aLine.contains("//www.rbc.ru") || aLine.contentEquals("https://tv.rbc.ru"))
-                { mass[k] = aLine; k++;}
+                if (aLine.contains(NEWS) || aLine.contains(TV) || aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER))
+                { mass[k] = aLine; ++k;}
             }
             int p = myRand(mass);
-            if (p % 2 == 1) { mass[0] = mass[p - 1]; mass[1] = mass[p]; k=2;}
-            else { mass[0] = mass[p]; mass[1] = mass[p+1]; k=2;}
+            if (p % 2 == 1) { mass[0] = mass[p-1]; mass[1] = mass[p]; k=2;}   //Значения 2 и т.д. будут перезаписываться
+            else { mass[0] = mass[p]; mass[1] = mass[p+1]; k=2;}    //Значения 2 и т.д. будут перезаписываться
+
+            for (String aLine : line)
+            {
+                if (aLine.contains(AUTO))
+                { mass[k] = aLine; k++; }
+            }
 
             for (String aLine : line) {
-                if (aLine.contains("style.rbc.ru") || aLine.contains("pink.rbc.ru"))
+                if (aLine.contains(STYLE) || aLine.contains(PINK))
                     { mass[k] = aLine; k++;}
             }
-            /*int p = myRand(4, k);
-            if*/
+            p = myRand(4, k);
+            if (p % 2 == 1) { mass[4] = mass[p-1]; mass[5] = mass[p]; k=6;}   //Значения 6 и т.д. будут перезаписываться
+            else { mass[4] = mass[p]; mass[5] = mass[p+1]; k=6;}    //Значения 6 и т.д. будут перезаписываться
+
+            for (String aLine : line) {
+                if (aLine.contains(SPORT) || aLine.contains(REALTY))
+                { mass[k] = aLine; k++;}
+            }
+            p = myRand(6, k);
+            if (p % 2 == 1) { mass[6] = mass[p-1]; mass[7] = mass[p];}
+            else { mass[6] = mass[p]; mass[7] = mass[p+1];}
+            k -= 2;
         }
+
+/*        //Фуллскрин
+        if (bannerType.equals("240x400_left")
+        {}*/
+
         //Общий вывод для 1 устройства
         for (int i = 0; i < k; i++) {
             str.append(mass[i]).append(prw).append('\n');
         }
         return str.toString();
+
+
     }
 
 
