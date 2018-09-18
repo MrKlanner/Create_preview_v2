@@ -55,7 +55,7 @@ public class PreviewCreater {
 
             case "Native":
                 for (String aLine : line) {
-                    if (aLine.contains("://www.rbc.ru")) {
+                    if (aLine.contains(NEWS)) {
                         mass[k] = aLine;
                         k++;
                     }
@@ -63,7 +63,7 @@ public class PreviewCreater {
                 break;
             case "InterScroll":
                 for (String aLine : line) {
-                    if (aLine.contains("//www.rbc.ru") || aLine.contains("https://pink.rbc.ru/")) /*+ если что-то внедрят*/
+                    if (aLine.contains(NEWS) || aLine.contains(PINK)) /*+ если что-то внедрят*/
                     {
                         mass[k] = aLine;
                         k++;
@@ -87,8 +87,8 @@ public class PreviewCreater {
         //Биллборд
         if (bannerType.equals("Billboard")) {
             for (String aLine : line) {
-                if (aLine.contains("//www.rbc.ru") || aLine.contentEquals("https://style.rbc.ru") ||
-                        aLine.contentEquals("https://pink.rbc.ru/") || aLine.contentEquals("https://quote.rbc.ru/"))
+                if (aLine.contains(NEWS) || aLine.contentEquals(STYLE) ||
+                        aLine.contentEquals(PINK) || aLine.contentEquals(QUOTE))
                 {   mass[k] = aLine; k++;}
             }
         }
@@ -96,7 +96,7 @@ public class PreviewCreater {
         else if (bannerType.equals("240x400_left"))
         {
             for (String aLine2 : line) {
-                if (aLine2.contains("://www.rbc.ru"))
+                if (aLine2.contains(NEWS))
                 {   mass[k] = aLine2; k++;}
             }
         }
@@ -147,9 +147,13 @@ public class PreviewCreater {
             k -= 2;
         }
 
-/*        //Фуллскрин
-        if (bannerType.equals("240x400_left")
-        {}*/
+        //Фуллскрин
+        if (bannerType.equals("240x400_left"))
+        {
+            int p = myRand(line); //рандомная площадка (-кроме Zoom)
+            if (p % 2 == 1) { return line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
+            else { return line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
+        }
 
         //Общий вывод для 1 устройства
         for (int i = 0; i < k; i++) {
