@@ -12,4 +12,6 @@ class URLs {
     static final String SPORT = "https://sportrbc.ru/";
     static final String REALTY = "https://realty.rbc.ru/";
     static final String QUOTE = "https://quote.rbc.ru/";
+
+
 }

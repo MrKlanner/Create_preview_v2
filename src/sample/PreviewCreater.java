@@ -8,14 +8,14 @@ public class PreviewCreater {
 
     private static String[] line = new String[] {"https://www.autonews.ru/", "https://www.autonews.ru/news/5b8d1b449a79477e7db5e43a/",
             "https://www.rbc.ru/", "https://www.rbc.ru/economics/03/09/2018/5b86dbeb9a7947a42c448ca5/",
-            "http://tv.rbc.ru/", "http://tv.rbc.ru/archive/chez/5b9bdcf92ae5965edf641d34",
-            "https://www.rbc.ru/newspaper/", "https://www.rbc.ru/newspaper/2018/09/13/5b990d8b9a79472dad3da224",
-            "https://www.rbc.ru/magazine/", "https://www.rbc.ru/magazine/2018/09/5b76f3579a79472aed2d8cba",
+            "http://tv.rbc.ru/", "http://tv.rbc.ru/archive/chez/5b9bdcf92ae5965edf641d34/",
+            "https://www.rbc.ru/newspaper/", "https://www.rbc.ru/newspaper/2018/09/13/5b990d8b9a79472dad3da224/",
+            "https://www.rbc.ru/magazine/", "https://www.rbc.ru/magazine/2018/09/5b76f3579a79472aed2d8cba/",
             "https://quote.rbc.ru/", "https://quote.rbc.ru/news/article/5b8d420e9a79478a8ce28e28/",
             "https://sportrbc.ru/", "https://sportrbc.ru/news/5b8d39e79a7947881a6090cd/",
             "https://style.rbc.ru/", "https://style.rbc.ru/life/5b8929359a79473211c2cde9/",
             "https://pink.rbc.ru/", "https://pink.rbc.ru/lifestyle/5b8998bb9a7947526bd5b704/",
-            "https://realty.rbc.ru/", "https://realty.rbc.ru/news/5ba0efcc9a79476817a47f23",
+            "https://realty.rbc.ru/", "https://realty.rbc.ru/news/5ba0efcc9a79476817a47f23/",
             "http://zoom.cnews.ru/", "http://zoom.cnews.ru/publication/item/60892/"};
 
     private static int myRand (String[] mass)
@@ -41,6 +41,7 @@ public class PreviewCreater {
 
     private static String onlyMob(String prw, String bannerType)
     {
+        String s;
         String mass[] = new String[line.length];
         StringBuilder str = new StringBuilder();
         int k = 0;
@@ -50,8 +51,9 @@ public class PreviewCreater {
             case "Billboard":
             case "240x400_left":
                 int p = myRand(line); //рандомная площадка (-кроме Zoom)
-                if (p % 2 == 1) { return line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
-                else { return line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
+                if (p % 2 == 1) { s = line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
+                else { s = line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
+                return ("МОБ:") + "\n" + s;
 
             case "Native":
                 for (String aLine : line) {
@@ -75,7 +77,7 @@ public class PreviewCreater {
         for (int i = 0; i < k; i++) {
             str.append(mass[i]).append(prw).append('\n');
         }
-        return str.toString();
+        return ("МОБ:") + "\n" + str.toString();
     }
 
     private static String onlyTab(String prw, String bannerType)
@@ -104,7 +106,7 @@ public class PreviewCreater {
         for (int i = 0; i < k; i++) {
             str.append(mass[i]).append(prw).append('\n');
         }
-        return str.toString();
+        return ("ПЛАНШ:") + "\n" + str.toString();
     }
 
     private static String onlyPC(String prw, String bannerType)
@@ -113,54 +115,88 @@ public class PreviewCreater {
         StringBuilder str = new StringBuilder();
         int k = 0;
 
-        //Биллборд
-        if (bannerType.equals("Billboard")) {
-            for (String aLine : line) {
-                if (aLine.contains(NEWS) || aLine.contains(TV) || aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER))
-                { mass[k] = aLine; ++k;}
-            }
-            int p = myRand(mass);
-            if (p % 2 == 1) { mass[0] = mass[p-1]; mass[1] = mass[p]; k=2;}   //Значения 2 и т.д. будут перезаписываться
-            else { mass[0] = mass[p]; mass[1] = mass[p+1]; k=2;}    //Значения 2 и т.д. будут перезаписываться
+            //Биллборд
+        switch (bannerType) {
+            case "Billboard":
+                for (String aLine : line) {
+                    if (aLine.contains(NEWS) || aLine.contains(TV) || aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER)) {
+                        mass[k] = aLine;
+                        ++k;
+                    }
+                }
+                int p = myRand(mass);
+                if (p % 2 == 1) {
+                    mass[0] = mass[p - 1];
+                    mass[1] = mass[p];
+                    k = 2;
+                }   //Значения 2 и т.д. будут перезаписываться
+                else {
+                    mass[0] = mass[p];
+                    mass[1] = mass[p + 1];
+                    k = 2;
+                }    //Значения 2 и т.д. будут перезаписываться
 
-            for (String aLine : line)
-            {
-                if (aLine.contains(AUTO))
-                { mass[k] = aLine; k++; }
-            }
+                for (String aLine : line) {
+                    if (aLine.contains(AUTO)) {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
 
-            for (String aLine : line) {
-                if (aLine.contains(STYLE) || aLine.contains(PINK))
-                    { mass[k] = aLine; k++;}
-            }
-            p = myRand(4, k);
-            if (p % 2 == 1) { mass[4] = mass[p-1]; mass[5] = mass[p]; k=6;}   //Значения 6 и т.д. будут перезаписываться
-            else { mass[4] = mass[p]; mass[5] = mass[p+1]; k=6;}    //Значения 6 и т.д. будут перезаписываться
+                for (String aLine : line) {
+                    if (aLine.contains(STYLE) || aLine.contains(PINK)) {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
+                p = myRand(4, k);
+                if (p % 2 == 1) {
+                    mass[4] = mass[p - 1];
+                    mass[5] = mass[p];
+                    k = 6;
+                }   //Значения 6 и т.д. будут перезаписываться
+                else {
+                    mass[4] = mass[p];
+                    mass[5] = mass[p + 1];
+                    k = 6;
+                }    //Значения 6 и т.д. будут перезаписываться
 
-            for (String aLine : line) {
-                if (aLine.contains(SPORT) || aLine.contains(REALTY))
-                { mass[k] = aLine; k++;}
-            }
-            p = myRand(6, k);
-            if (p % 2 == 1) { mass[6] = mass[p-1]; mass[7] = mass[p];}
-            else { mass[6] = mass[p]; mass[7] = mass[p+1];}
-            k -= 2;
-        }
+                for (String aLine : line) {
+                    if (aLine.contains(SPORT) || aLine.contains(REALTY)) {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
+                p = myRand(6, k);
+                if (p % 2 == 1) {
+                    mass[6] = mass[p - 1];
+                    mass[7] = mass[p];
+                } else {
+                    mass[6] = mass[p];
+                    mass[7] = mass[p + 1];
+                }
+                k -= 2;
+                break;
 
-        //Фуллскрин
-        if (bannerType.equals("240x400_left"))
-        {
-            int p = myRand(line); //рандомная площадка (-кроме Zoom)
-            if (p % 2 == 1) { return line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
-            else { return line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
+            //Фуллскрин
+            case ("Fullscreen"):
+            case ("240x400_left"):
+            case ("Branding"):
+                String s;
+                p = myRand(line); //рандомная площадка (-кроме Zoom)
+                if (p % 2 == 1) {
+                    s =  line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
+                else { s = line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
+                s += line[line.length - 2] + prw + '\n' + line[line.length-1] + prw + "\n";
+                return ("ДЕСК:") + "\n" +  s;
+
         }
 
         //Общий вывод для 1 устройства
         for (int i = 0; i < k; i++) {
             str.append(mass[i]).append(prw).append('\n');
         }
-        return str.toString();
-
+        return ("ДЕСК:") + "\n" + str.toString();
 
     }
 
@@ -168,19 +204,127 @@ public class PreviewCreater {
     public static String checkBoxes(boolean[] Dvc, String prw, String bannerType) {
         //System.out.println("вошёл в функцию");
 
-        String mass[] = new String[line.length];
+        String mass[] = new String[31];
         StringBuilder str = new StringBuilder();
         int k = 0;
 
         //Проверка на вшивость
         if (Dvc[2] || Dvc[1] || Dvc[0])
 
-            /*//МОБ+ПЛАНШ или ДЕСК+ПЛАНШ
+            if (Dvc[0] && Dvc[1] && Dvc[2]) {
+                switch (bannerType) {
+                    //Будет выводится без рандома!! (NEW!)
+                    case ("Right"):
+                        for (String aLine : line) {
+                            if (aLine.contains(NEWS) && !aLine.contains(MAGAZINE) && !aLine.contains(NEWSPAPER)) {
+                                mass[k] = aLine;
+                                k++;
+                            }
+                        }
+                        k++;
+                        for (String aLine : line) {
+                            if (aLine.contains(QUOTE)) {
+                                mass[k] = aLine;
+                                k++;
+                            }
+                        }
+                        k++;
+                        for (String aLine : line) {
+                            if (aLine.contains(TV) || aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER) ||
+                                    aLine.contains(SPORT) || aLine.contains(REALTY)) {
+                                mass[k] = aLine;
+                                k++;
+                            }
+                        }
+                        k++;
+                        for (String aLine : line) {
+                            if (aLine.contains(AUTO)) {
+                                mass[k] = aLine;
+                                k++;
+                            }
+                        }
+                        k++;
+                        for (String aLine : line) {
+                            if (aLine.contains(STYLE) || aLine.contains(PINK)) {
+                                mass[k] = aLine;
+                                k++;
+                            }
+                        }
+                        k++;
+                        for (String aLine : line) {
+                            if (aLine.contains(ZOOM)) {
+                                mass[k] = aLine;
+                                k++;
+                            }
+                        }
+
+                        //Общий вывод для 1 устройства
+                        for (int i = 0; i < k; i++) {
+                            if (mass[i] != null)
+                                str.append(mass[i]).append(prw).append('\n');
+                            else
+                                str.append('\n');
+                        }
+                        return ("ДЕСК, ПЛАНШ, МОБ:") + "\n" + str.toString();
+
+                    case ("Billboard"):
+                    case ("240x400_left"):
+                        return onlyPC(prw, bannerType) + '\n' + onlyTab(prw, bannerType) + '\n' + onlyMob(prw, bannerType);
+                    case ("Branding"):
+                        return onlyPC(prw, bannerType);
+                    case ("InterScroll"):
+                        return onlyMob(prw, bannerType);
+                    case ("Fullscreen"):
+                        return onlyPC(prw, bannerType);
+                }
+            }
+
+
+            //МОБ+ПЛАНШ или ДЕСК+ПЛАНШ
             if ((!Dvc[0] && Dvc[1] && Dvc[2]) || (Dvc[0] && Dvc[1] && !Dvc[2]))
             {
-                if (!Dvc[0] && Dvc[1] && !Dvc[2])
-                    return "";
-            }*/
+                //МОБ+ПЛАНШ
+                if (!Dvc[0] && Dvc[1] && Dvc[2])
+                    switch (bannerType) {
+                        case ("Fullscreen"):
+                            for (String aLine : line) {
+                                if (aLine.contains(STYLE) || aLine.contains(PINK)){
+                                    mass[k] = aLine;
+                                    k++;
+                                }
+                            }
+                            k++;
+                            for (String aLine : line) {
+                                if (aLine.contains(QUOTE)){
+                                    mass[k] = aLine;
+                                    k++;
+                                }
+                            }
+                            k++;
+
+                            int p = myRand(line); //рандомная площадка (-кроме Zoom)
+                            if (p % 2 == 1) { mass[k] = line[p - 1]; mass[k+1] = line[p]; k+=2; }
+                            else { mass[k] = line[p]; mass[k+1] = line[p + 1]; k+=2; }
+
+                            //Общий вывод для 1 устройства
+                            for (int i = 0; i < k; i++) {
+                                if (mass[i] != null)
+                                    str.append(mass[i]).append(prw).append('\n');
+                                else
+                                    str.append('\n');
+                            }
+                            return ("ПЛАНШ, МОБ:") + "\n" + str.toString();
+
+                        case("Billboard"):
+                            return onlyTab(prw, bannerType) + '\n' + onlyMob(prw, bannerType);
+                        case ("Native"):
+                            return onlyMob(prw, bannerType);
+                        case ("240x400_left"):
+                            return onlyTab(prw,bannerType) + '\n' + onlyMob(prw, bannerType);
+                        case ("Right"):
+                            return onlyTab(prw,bannerType ) + '\n' + onlyMob(prw,bannerType);
+                    }
+            }
 
 
             // ТОЛЬКО МОБИЛЬНЫЙ
@@ -189,7 +333,7 @@ public class PreviewCreater {
             //ТОЛЬКО ПЛАНШЕТ
             if (Dvc[1] && !Dvc[0] && !Dvc[2]) {return onlyTab(prw, bannerType);}
 
-/*            //ТОЛЬКО ДЕСК*/
+            //ТОЛЬКО ДЕСК
             if (Dvc[0] && !Dvc[1] && !Dvc[2]) {return onlyPC(prw, bannerType);}
 
         else return  "Пожалуйста, выберите устройство";

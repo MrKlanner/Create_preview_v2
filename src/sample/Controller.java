@@ -60,7 +60,7 @@ public class Controller {
 
     @FXML
     void initialize() {
-        String bannerType;
+        //String bannerType;
         //System.out.println("хелп!");
         //System.out.println("В инициализаторе проверил чекбоксы");
         /*boolean chD = checkDesk.isSelected();
@@ -68,37 +68,67 @@ public class Controller {
         boolean chM = checkMob.isSelected();*/
 
         billButton.setOnAction( event -> {
+            outText.clear();
             String preview = previewFild.getText();
             boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
             //System.out.println("вошёл в ивент");
-            outText.appendText("Биллборд\n");
+            outText.appendText("Биллборд:\n");
             outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Billboard") + '\n');
         });
 
         leftButton.setOnAction(event -> {
+            outText.clear();
             String preview = previewFild.getText();
             boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
             //System.out.println("вошёл в ивент");
-            outText.appendText("Баннер 240х400 (слева/в Ленте новостей)\n");
+            outText.appendText("Баннер 240х400 (слева/в Ленте новостей):\n");
             outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"240x400_left") + '\n');
         });
 
         nativeButton.setOnAction(event -> {
+            outText.clear();
             String preview = previewFild.getText();
             boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
             //System.out.println("вошёл в ивент");
-            outText.appendText("Нейтив ролл\n");
+            outText.appendText("Нейтив ролл:\n");
             outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Native") + '\n');
         });
 
         InterButton.setOnAction(event -> {
+            outText.clear();
             String preview = previewFild.getText();
             boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
             //System.out.println("вошёл в ивент");
-            outText.appendText("Интерскроллер\n");
+            outText.appendText("Интерскроллер:\n");
             outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"InterScroll") + '\n');
         });
 
+        brandButton.setOnAction(event -> {
+            outText.clear();
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            //System.out.println("вошёл в ивент");
+            outText.appendText("Брендирование:\n");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Branding") + '\n');
+        });
+
+        fullButton.setOnAction(event -> {
+            outText.clear();
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            //System.out.println("вошёл в ивент");
+            outText.appendText("Фуллскрин:\n");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Fullscreen") + '\n');
+        });
+
+        rightButton.setOnAction(event -> {
+            outText.clear();
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            //System.out.println("вошёл в ивент");
+            outText.appendText("240x400 (300х600) справа:\n");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Right") + '\n');
+        });
     }
 }
 
