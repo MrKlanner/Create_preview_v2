@@ -129,6 +129,15 @@ public class Controller {
             outText.appendText("240x400 (300х600) справа:\n");
             outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Right") + '\n');
         });
+
+        oplyaButton.setOnAction( event -> {
+            outText.clear();
+            String preview = previewFild.getText();
+            boolean[] chDevice = {checkDesk.isSelected(), checkPlansh.isSelected(), checkMob.isSelected()};
+            //System.out.println("вошёл в ивент");
+            outText.appendText("Всплывашка по доскроллу:\n");
+            outText.appendText(PreviewCreater.checkBoxes(chDevice,preview,"Oplya") + '\n');
+        });
     }
 }
 

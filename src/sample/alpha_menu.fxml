@@ -12,7 +12,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Label layoutX="36.0" layoutY="26.0" prefHeight="17.0" prefWidth="100.0" text="Превью ссылка" />
       <Button fx:id="fullButton" layoutX="106.0" layoutY="213.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="90.0" text="Фуллскрин" />
@@ -26,7 +26,7 @@
       <CheckBox fx:id="checkMob" layoutX="65.0" layoutY="163.0" mnemonicParsing="false" text="Моб" />
       <CheckBox fx:id="checkPlansh" layoutX="65.0" layoutY="137.0" mnemonicParsing="false" text="Планш" />
       <CheckBox fx:id="checkDesk" layoutX="65.0" layoutY="112.0" mnemonicParsing="false" text="Деск" />
-      <TextArea fx:id="outText" layoutX="36.0" layoutY="319.0" prefHeight="255.0" prefWidth="529.0" />
+      <TextArea fx:id="outText" layoutX="36.0" layoutY="319.0" prefHeight="352.0" prefWidth="536.0" />
       <Button fx:id="InterButton" layoutX="221.0" layoutY="85.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="221.0" text="Интерскроллер" />
    </children>
 </AnchorPane>
