@@ -3,8 +3,6 @@ package sample;
 import java.lang.*;
 import java.util.Random;
 
-import static sample.ConsoleColors.RED;
-import static sample.ConsoleColors.RESET;
 import static sample.URLs.*;
 
 class PreviewCreater {
@@ -42,6 +40,35 @@ class PreviewCreater {
         }
     }*/
 
+    private static String allSlideLinks(String prw) {
+        StringBuilder s = new StringBuilder();
+        /*if (false)
+            for (String aLine : line) {
+                if (!aLine.contains(NEWSPAPER) && !aLine.contains(MAGAZINE))
+                    s.append(aLine).append(prw).append('\n');
+            }*/
+        //else {
+        for (String aLine1 : line) {
+            if (!aLine1.contains(NEWSPAPER) && !aLine1.contains(MAGAZINE) && !aLine1.contains(ZOOM))
+                s.append(aLine1).append(prw).append('\n');
+        }
+        s.append('\n');
+        for (String aLine : line)
+            if (aLine.contains(ZOOM))
+                s.append(aLine).append(prw).append('\n');
+        //}
+        return s.toString();
+    }
+
+    private static String onlyZoom(String prw) {
+        StringBuilder s = new StringBuilder();
+        for (String aLine : line)
+            if (aLine.contains(ZOOM))
+                s.append(aLine).append(prw).append('\n');
+        return s.toString();
+    }
+
+    //Без рандома
     private static String onlyMob(String prw, String bannerType)
     {
         String s;
@@ -53,14 +80,11 @@ class PreviewCreater {
         switch (bannerType) {
             case "Billboard":
             case "240x400_left":
-                int p = myRand(line); //рандомная площадка (-кроме Zoom)
-                if (p % 2 == 1) { s = line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
-                else { s = line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
-                return ("МОБ:") + "\n" + s;
+                return ("МОБ:") + "\n" + allSlideLinks(prw);
 
             case "Native":
                 for (String aLine : line) {
-                    if (aLine.contains(NEWS)) {
+                    if (aLine.contains(NEWS) && !(aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER)))  {
                         mass[k] = aLine;
                         k++;
                     }
@@ -68,25 +92,40 @@ class PreviewCreater {
                 break;
             case "InterScroll":
                 for (String aLine : line) {
-                    if (aLine.contains(NEWS) || aLine.contains(PINK)) /*+ если что-то внедрят*/
+                    if (aLine.contains(NEWS) && !(aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER))) /*+ если что-то внедрят*/
                     {
                         mass[k] = aLine;
                         k++;
                     }
                 }
+                k++;
+                for (String aLine : line) {
+                    if (aLine.contains(PINK)) /*+ если что-то внедрят*/
+                    {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
+                k++;
                 break;
             case ("Branding"):
                 return "На МОБ нет брендирования!";
             case "Oplya":
                 return "Error 404";
+            case "Fullscreen":
+                return Full(prw, bannerType);
         }
         //Общий вывод для 1 устройства
         for (int i = 0; i < k; i++) {
-            str.append(mass[i]).append(prw).append('\n');
+            if (mass[i] != null)
+                str.append(mass[i]).append(prw).append('\n');
+            else
+                str.append('\n');
         }
         return ("МОБ:") + "\n" + str.toString();
     }
 
+    //Без рандома
     private static String onlyTab(String prw, String bannerType)
     {
         String mass[] = new String[line.length];
@@ -97,8 +136,21 @@ class PreviewCreater {
             //Биллборд
             case ("Billboard"):
                 for (String aLine : line) {
-                    if ((aLine.contains(NEWS) || aLine.contentEquals(STYLE) ||
-                            aLine.contentEquals(PINK) || aLine.contentEquals(QUOTE)) && !(aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER))) {
+                    if (aLine.contains(NEWS) && !(aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER))) {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
+                k++;
+                for (String aLine : line) {
+                    if (aLine.contains(STYLE) || aLine.contains(PINK)) {
+                        mass[k] = aLine;
+                        k++;
+                    }
+                }
+                k++;
+                for (String aLine : line) {
+                    if (aLine.contains(QUOTE)) {
                         mass[k] = aLine;
                         k++;
                     }
@@ -106,9 +158,9 @@ class PreviewCreater {
                 break;
                 // Баннер 240х400 слева (или на моб в ленте новостей)
             case ("240x400_left"):
-                for (String aLine2 : line) {
-                    if (aLine2.contains(NEWS)) {
-                        mass[k] = aLine2;
+                for (String aLine : line) {
+                    if (aLine.contains(NEWS) && !(aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER))) {
+                        mass[k] = aLine;
                         k++;
                     }
                 }
@@ -124,14 +176,19 @@ class PreviewCreater {
             case "Fullscreen":
                 return Full(prw, bannerType);
         }
+
         //Общий вывод для 1 устройства
         for (int i = 0; i < k; i++) {
-            str.append(mass[i]).append(prw).append('\n');
+            if (mass[i] != null)
+                str.append(mass[i]).append(prw).append('\n');
+            else
+                str.append('\n');
         }
-        return ("ПЛАНШ:") + "\n" + str.toString();
+        return ("ПЛАНШ:") + "\n" + str.toString() + '\n' + onlyZoom(prw);
 
     }
 
+    //Без рандома
     private static String onlyPC(String prw, String bannerType)
     {
         String mass[] = new String[line.length];
@@ -142,76 +199,46 @@ class PreviewCreater {
         switch (bannerType) {
             case "Billboard":
                 for (String aLine : line) {
-                    if (aLine.contains(NEWS) || aLine.contains(TV) || aLine.contains(MAGAZINE) || aLine.contains(NEWSPAPER)) {
+                    if (aLine.contains(NEWS) || aLine.contains(TV)){
                         mass[k] = aLine;
                         ++k;
                     }
                 }
-                int p = myRand(mass);
-                if (p % 2 == 1) {
-                    mass[0] = mass[p - 1];
-                    mass[1] = mass[p];
-                    k = 2;
-                }   //Значения 2 и т.д. будут перезаписываться
-                else {
-                    mass[0] = mass[p];
-                    mass[1] = mass[p + 1];
-                    k = 2;
-                }    //Значения 2 и т.д. будут перезаписываться
-
+                k++;
                 for (String aLine : line) {
                     if (aLine.contains(AUTO)) {
                         mass[k] = aLine;
                         k++;
                     }
                 }
-
+                k++;
                 for (String aLine : line) {
                     if (aLine.contains(STYLE) || aLine.contains(PINK)) {
                         mass[k] = aLine;
                         k++;
                     }
                 }
-                p = myRand(4, k);
-                if (p % 2 == 1) {
-                    mass[4] = mass[p - 1];
-                    mass[5] = mass[p];
-                    k = 6;
-                }   //Значения 6 и т.д. будут перезаписываться
-                else {
-                    mass[4] = mass[p];
-                    mass[5] = mass[p + 1];
-                    k = 6;
-                }    //Значения 6 и т.д. будут перезаписываться
-
+                k++;
                 for (String aLine : line) {
                     if (aLine.contains(SPORT) || aLine.contains(REALTY)) {
                         mass[k] = aLine;
                         k++;
                     }
                 }
-                p = myRand(6, k);
-                if (p % 2 == 1) {
-                    mass[6] = mass[p - 1];
-                    mass[7] = mass[p];
-                } else {
-                    mass[6] = mass[p];
-                    mass[7] = mass[p + 1];
-                }
-                k -= 2;
                 break;
 
             //Фуллскрин
             case "Fullscreen":
             case "240x400_left":
             case "Branding":
+                /*int p=0;
                 String s;
                 p = myRand(line); //рандомная площадка (-кроме Zoom)
                 if (p % 2 == 1) {
                     s =  line[p - 1] + prw + "\n" + line[p] + prw + "\n"; }
                 else { s = line[p] + prw + "\n" + line[p + 1] + prw + "\n"; }
-                s += line[line.length - 2] + prw + '\n' + line[line.length-1] + prw + "\n";
-                return ("ДЕСК:") + "\n" +  s;
+                s += line[line.length - 2] + prw + '\n' + line[line.length-1] + prw + "\n";*/
+                return ("ДЕСК:") + "\n" + allSlideLinks(prw);
             case "Native":
                 return "ДЕСК" + '\n' + "Error 404" + '\n';
             case "Right":
@@ -223,9 +250,12 @@ class PreviewCreater {
 
         //Общий вывод для 1 устройства
         for (int i = 0; i < k; i++) {
-            str.append(mass[i]).append(prw).append('\n');
+            if (mass[i] != null)
+                str.append(mass[i]).append(prw).append('\n');
+            else
+                str.append('\n');
         }
-        return ("ДЕСК:") + "\n" + str.toString();
+        return ("ДЕСК:") + "\n" + str.toString() + '\n' + onlyZoom(prw);
 
     }
 
@@ -312,11 +342,6 @@ class PreviewCreater {
                     k++;
                 }
             }
-            k++;
-
-            int p = myRand(line); //рандомная площадка (-кроме Zoom)
-            if (p % 2 == 1) { mass[k] = line[p - 1]; mass[k+1] = line[p]; k+=2; }
-            else { mass[k] = line[p]; mass[k+1] = line[p + 1]; k+=2; }
 
             //Общий вывод для 1 устройства
             for (int i = 0; i < k; i++) {
@@ -325,7 +350,7 @@ class PreviewCreater {
                 else
                     str.append('\n');
             }
-            return ("ПЛАНШ, МОБ:") + "\n" + str.toString();
+            return ("ПЛАНШ, МОБ:") + "\n" + str.toString() + '\n' + allSlideLinks(prw);
         }
         return prw;
     }
@@ -355,6 +380,7 @@ class PreviewCreater {
                     case ("Fullscreen"):
                         return onlyPC(prw, bannerType) + '\n' + Full(prw,bannerType);
                     case "Native":
+                        return onlyMob(prw, bannerType);
                     case "Oplya":
                         return "Error 404";
                 }
